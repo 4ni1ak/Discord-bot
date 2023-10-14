@@ -153,6 +153,10 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Commands\CreatAndSet.Commands\CreatAndSet.Commands.csproj">
+      <Project>{7D7CBB4D-379B-4902-B4A0-51BC7CF083BC}</Project>
+      <Name>CreatAndSet.Commands</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Config\CreadAndSet.Config\CreadAndSet.Config.csproj">
       <Project>{13370fdb-1477-40eb-beae-9e01470e9258}</Project>
       <Name>CreadAndSet.Config</Name>
