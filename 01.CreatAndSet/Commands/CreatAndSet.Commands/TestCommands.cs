@@ -65,6 +65,9 @@ namespace CreatAndSet.Commands
 			
 			await ctx.Channel.SendMessageAsync(userCard.SelectedCard);
 			await ctx.Channel.SendMessageAsync(botCard.SelectedCard);
+			await ctx.Channel.SendMessageAsync(botCard.Id.ToString());
+			await ctx.Channel.SendMessageAsync(userCard.Id.ToString());
+
 
 			if (userCard.SelectedCard != botCard.SelectedCard)
 			{
@@ -121,9 +124,7 @@ namespace CreatAndSet.Commands
 		public (CardSystem userCard, CardSystem botCard) SetCards()
 		{
 			var userCard = new CardSystem();
-			System.Threading.Thread.Sleep(2000);
 			var botCard = new CardSystem();
-			System.Threading.Thread.Sleep(2000);
 			return (userCard, botCard);
 		}
 	}
