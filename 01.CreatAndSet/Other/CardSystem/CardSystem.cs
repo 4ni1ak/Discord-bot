@@ -21,9 +21,21 @@ namespace CreadAndSet.CardSystem
 
             this.SelectedNumber = cardNumbers[numberIndex];
             this.SelectedCard = $"{cardNumbers[numberIndex]} of {cardSuits[suitIndex]}";
-
-
-
         }
-    }
+
+		public CardSystem(int selectedCardNumber, CardSuit suitNumber)
+		{
+			this.SelectedNumber = cardNumbers[selectedCardNumber];
+			this.SelectedCard = $"{cardNumbers[selectedCardNumber]} of {cardSuits[(int)suitNumber]}";
+		}
+
+
+	}
+    public enum CardSuit
+    {
+		Clubs = 0,
+		Spades = 1,
+		Diamonds = 2,
+		Hearts = 3,
+	}
 }
