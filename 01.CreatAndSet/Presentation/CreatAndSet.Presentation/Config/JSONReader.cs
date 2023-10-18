@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CreadAndSet.Config
+namespace Config
 {
     public class JSONReader
     {
@@ -14,12 +14,12 @@ namespace CreadAndSet.Config
         public string Prefix { get; set; }
         public async Task ReadJSON()
         {
-            using(StreamReader reader = new StreamReader("config.json"))
+            using (StreamReader reader = new StreamReader("config.json"))
             {
-                string json= await reader.ReadToEndAsync();
-                JsonStructure data = JsonConvert.DeserializeObject<JsonStructure>(json); 
-                this.Token = data.Token;
-                this.Prefix = data.Prefix;
+                string json = await reader.ReadToEndAsync();
+                JsonStructure data = JsonConvert.DeserializeObject<JsonStructure>(json);
+                Token = data.Token;
+                Prefix = data.Prefix;
             }
         }
     }
