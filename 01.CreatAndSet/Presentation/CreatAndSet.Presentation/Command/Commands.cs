@@ -231,6 +231,14 @@ namespace Commands
 			}
 		}
 
+		[Command("CooldownTest")]
+		[Cooldown(5,10,CooldownBucketType.User)]
+		public async Task Cooldown (CommandContext ctx)
+		{
+			await ctx.Channel.SendMessageAsync("CooldownTest");
+
+		}
+
 		public (CardSystem userCard, CardSystem botCard) SetCards()
 		{
 			var userCard = new CardSystem();

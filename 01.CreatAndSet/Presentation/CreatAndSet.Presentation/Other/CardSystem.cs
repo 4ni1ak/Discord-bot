@@ -8,8 +8,8 @@ namespace CreadAndSet.CardSystem
 {
     public class CardSystem
     {
-        private int[] cardNumbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-        private string[] cardSuits = { "Clubs", "Spades", "Diamonds", "Hearts" };
+        readonly private int[] cardNumbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+        readonly private string[] cardSuits = { "Clubs", "Spades", "Diamonds", "Hearts" };
         public int SelectedNumber { get; set; }
         public Guid Id{ get; set; }
 		
