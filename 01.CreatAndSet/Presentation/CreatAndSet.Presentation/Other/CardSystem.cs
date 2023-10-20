@@ -12,7 +12,7 @@ namespace CreadAndSet.CardSystem
         private string[] cardSuits = { "Clubs", "Spades", "Diamonds", "Hearts" };
         public int SelectedNumber { get; set; }
         public Guid Id{ get; set; }
-
+		
         public string SelectedCard { get; set; }
 		public CardSystem()
 		{
