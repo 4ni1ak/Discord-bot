@@ -230,7 +230,12 @@ namespace Commands
 				}
 			}
 		}
-
+		public (CardSystem userCard, CardSystem botCard) SetCards()
+		{
+			var userCard = new CardSystem();
+			var botCard = new CardSystem();
+			return (userCard, botCard);
+		}
 		[Command("CooldownTest")]
 		[Cooldown(5,10,CooldownBucketType.User)]
 		public async Task Cooldown (CommandContext ctx)
@@ -239,12 +244,7 @@ namespace Commands
 
 		}
 
-		public (CardSystem userCard, CardSystem botCard) SetCards()
-		{
-			var userCard = new CardSystem();
-			var botCard = new CardSystem();
-			return (userCard, botCard);
-		}
+		
 	}
 
 

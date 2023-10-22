@@ -1,5 +1,6 @@
 ﻿using Commands;
 using Config;
+using CreatAndSet.Presentation.SlashCommands;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
@@ -8,6 +9,7 @@ using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
+using DSharpPlus.SlashCommands;
 using System;
 using System.Threading.Tasks;
 namespace Presentation
@@ -52,10 +54,16 @@ namespace Presentation
 			};
 			Commands = Client.UseCommandsNext(commandsConfig);
 
+			var slashCommandsConfig = Client.UseSlashCommands();
+
+
 			Commands.CommandErrored += CommandEventHandler;
 
-
+			//prefix BasedCommands
 			Commands.RegisterCommands<TestCommands>();
+
+			//Slash Commands
+			slashCommandsConfig.RegisterCommands<FunSL>(1162471989068443690);
 
 
 
