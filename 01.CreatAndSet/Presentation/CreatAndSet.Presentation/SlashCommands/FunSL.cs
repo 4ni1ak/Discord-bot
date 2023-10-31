@@ -5,6 +5,7 @@ using DSharpPlus.SlashCommands;
 using Presentation;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,11 +30,11 @@ namespace CreatAndSet.Presentation.SlashCommands
 
 		[SlashCommand("poll", "Create your own poll")]
 		public async Task PollCommand(InteractionContext ctx, [Option("question", "The main poll subject/question")] string Question,
-															[Option("timelimit", "The time set on this poll")] long TimeLimit,
-															[Option("option1", "Option 1")] string Option1,
-															[Option("option2", "Option 1")] string Option2,
-															[Option("option3", "Option 1")] string Option3,
-															[Option("option4", "Option 1")] string Option4)
+															  [Option("timelimit", "The time set on this poll")] long TimeLimit,
+															  [Option("option1", "Option 1")] string Option1,
+															  [Option("option2", "Option 1")] string Option2,
+															  [Option("option3", "Option 1")] string Option3,
+															  [Option("option4", "Option 1")] string Option4)
 		{
 			await ctx.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder()
 																				.WithContent("..."));
@@ -107,6 +108,20 @@ namespace CreatAndSet.Presentation.SlashCommands
 
 			await ctx.Channel.SendMessageAsync(resultsMessage);          
 		}
+		[SlashCommand("caption","Give an any image a caption")]
+        public async Task CaptionCommand(InteractionContext ctx, [Option("caption", "Give an any image a caption")] string caption, [Option("image", "The image you want to upload")] DiscordAttachment picture)
+        {
+			await ctx.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder().WithContent("..."));
 
-	}
+			var captionMessage = new DiscordEmbedBuilder()
+			{
+				Title = caption,
+				ImageUrl = picture.Url
+
+			};
+
+			await ctx.CreateResponseAsync(embed: captionMessage);
+		}
+
+    }
 }
