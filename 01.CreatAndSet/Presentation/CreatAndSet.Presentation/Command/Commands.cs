@@ -244,6 +244,16 @@ namespace Commands
 
 		}
 
+		[Command("Button")]
+		public async Task Button(CommandContext ctx)
+		{
+			DiscordButtonComponent button1 = new DiscordButtonComponent(ButtonStyle.Primary, "1", "Button1");
+			DiscordButtonComponent button2 = new DiscordButtonComponent(ButtonStyle.Primary, "2", "Button2");
+			var message = new DiscordMessageBuilder().AddEmbed(new DiscordEmbedBuilder().WithColor(DiscordColor.Azure).WithTitle("This is message with buttons").WithDescription("Please select button")).AddComponents(button1).AddComponents(button2);
+			
+			await ctx.Channel.SendMessageAsync(message);
+		}
+
 		
 	}
 

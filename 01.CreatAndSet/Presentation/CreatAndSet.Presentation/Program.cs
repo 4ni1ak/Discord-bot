@@ -7,6 +7,7 @@ using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.CommandsNext.Exceptions;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
+using DSharpPlus.Exceptions;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
 using DSharpPlus.SlashCommands;
@@ -38,10 +39,12 @@ namespace Presentation
 			}); ;
 
 
-			Client.Ready += Client_Ready;
-			Client.MessageCreated += MessageCreatedHandler;
-			Client.VoiceStateUpdated += VoiceChanelHandler;
+            Client.Ready += OnClientReady;
+			Client.ComponentInteractionCreated += ButtonPressResponse;
+			//Client.MessageCreated += MessageCreatedHandler;
+            Client.VoiceStateUpdated += VoiceChanelHandler;
 
+			
 
 			var commandsConfig = new CommandsNextConfiguration()
 			{
@@ -63,7 +66,7 @@ namespace Presentation
 			Commands.RegisterCommands<TestCommands>();
 
 			//Slash Commands
-			slashCommandsConfig.RegisterCommands<FunSL>(1162471989068443690);
+			slashCommandsConfig.RegisterCommands<FunSL>(1162471989068443690); 
 
 
 
@@ -71,6 +74,24 @@ namespace Presentation
 			await Task.Delay(-1);
 		}
 
+        private static async Task ButtonPressResponse(DiscordClient sender, ComponentInteractionCreateEventArgs e)
+        {
+			if (e.Interaction.Data.CustomId == "1")
+			{
+				await e.Interaction.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder().WithContent("YOU prest the first button "));
+			}
+			else if (e.Interaction.Data.CustomId == "2")
+			{
+				await e.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, new DiscordInteractionResponseBuilder().WithContent("YOU prest the Second button "));
+
+
+            }
+        }
+
+        private static Task OnClientReady(DiscordClient sender, ReadyEventArgs e)
+        {
+            return Task.CompletedTask;
+        }
 		private static async Task CommandEventHandler(CommandsNextExtension sender, CommandErrorEventArgs e)
 		{
 			if (e.Exception is ChecksFailedException exception)
@@ -104,15 +125,15 @@ namespace Presentation
 
 
 
-		private static async Task MessageCreatedHandler(DiscordClient sender, MessageCreateEventArgs e)
-		{
-			await e.Channel.SendMessageAsync("godmfdeam");
-		}
+		//private static async Task MessageCreatedHandler(DiscordClient sender, MessageCreateEventArgs e)
+		//{
+		//	await e.Channel.SendMessageAsync("godmfdeam");
+		//}
 
-		private static Task Client_Ready(DiscordClient sender, ReadyEventArgs args)
-		{
-			return Task.CompletedTask;
-		}
+		//private static Task Client_Ready(DiscordClient sender, ReadyEventArgs args)
+		//{
+		//	return Task.CompletedTask;
+		//}
 
 	}
 }
