@@ -86,6 +86,31 @@ namespace Presentation
 
 
             }
+			
+
+			
+			else if (e.Interaction.Data.CustomId == "funButton")
+			{
+				string funCommandsList = "!message ==> Send a message\n" +
+										 "!emmbedmessage1 ==> Sends an embed message\n" +
+										 "!poll ==> Stars a poll";
+                await e.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, new DiscordInteractionResponseBuilder().WithContent(funCommandsList));
+            }
+			else if (e.Interaction.Data.CustomId == "gameButton")
+			{
+				string gameList = "!cardgame ==> Card game";
+				
+                
+				var gamesCommandList = new DiscordInteractionResponseBuilder()
+				{
+					Title = "Game Commands List",
+					Content = gameList
+				};
+                await e.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage,gamesCommandList);
+
+
+            }
+        
         }
 
         private static Task OnClientReady(DiscordClient sender, ReadyEventArgs e)
