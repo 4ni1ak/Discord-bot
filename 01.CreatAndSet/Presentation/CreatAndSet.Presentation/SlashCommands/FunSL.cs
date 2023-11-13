@@ -27,6 +27,31 @@ namespace CreatAndSet.Presentation.SlashCommands
             };
             await ctx.Channel.SendMessageAsync(embed: embedMessage);
         }
+        [SlashCommand("rnb", "Roll a dice")]
+        public async Task RollDice(InteractionContext ctx,
+    [Option("min", "Minimum value of the dice")] int min,
+    [Option("max", "Maximum value of the dice")] int max)
+        {
+            if (min >= max)
+            {
+                await ctx.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder().WithContent("Please enter a minimum value lower than the maximum value."));
+                return;
+            }
+
+            Random random = new Random();
+            int diceResult = random.Next(min, max + 1);
+
+            string diceOutput = $"The dice rolled: {diceResult}";
+
+
+            var embed = new DiscordEmbedBuilder()
+                .WithTitle("Dice Roll Result")
+                .WithDescription($"Congratulations, {ctx.User.Mention}! Your dice roll result: {diceOutput}")
+                .WithColor(DiscordColor.Green);
+
+            await ctx.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder().AddEmbed(embed));
+        }
+
 
         [SlashCommand("poll", "Create your own poll")]
         public async Task PollCommand(InteractionContext ctx, [Option("question", "The main poll subject/question")] string Question,
