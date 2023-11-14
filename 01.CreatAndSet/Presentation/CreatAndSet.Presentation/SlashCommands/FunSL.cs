@@ -52,6 +52,62 @@ namespace CreatAndSet.Presentation.SlashCommands
             await ctx.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder().AddEmbed(embed));
         }
 
+        [SlashCommand("encrypt", "Encryption command")]
+        public async Task EncryptCommand(InteractionContext ctx,
+               [Option("word", "Word to be encrypted")] string word,
+               [Option("key", "Encryption key (exp 3)")] int key,
+               [Option("algorithm", "Encryption algorithm (caesar or reverse)")] string algorithm)
+        {
+            string result = "";
+
+            switch (algorithm.ToLower())
+            {
+                case "caesar":
+                    result = EncryptCaesarCipher(word, key);
+                    break;
+                case "reverse":
+                    result = ReverseString(word);
+                    break;
+                default:
+                    await ctx.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder().WithContent("Invalid encryption algorithm. Please use 'caesar' or 'reverse'."));
+                    return;
+            }
+
+            var embed = new DiscordEmbedBuilder()
+                .WithTitle("Encryption Result")
+                .WithDescription($"Encrypted word: {result}")
+                .WithColor(DiscordColor.Green);
+
+            await ctx.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder().AddEmbed(embed));
+        }
+
+        private string EncryptCaesarCipher(string word, int key)
+        {
+            string encryptedWord = "";
+
+            foreach (char letter in word)
+            {
+                if (char.IsLetter(letter))
+                {
+                    char baseLetter = char.IsUpper(letter) ? 'A' : 'a';
+                    encryptedWord += (char)(((letter + key - baseLetter) % 26) + baseLetter);
+                }
+                else
+                {
+                    encryptedWord += letter;
+                }
+            }
+
+            return encryptedWord;
+        }
+
+        private string ReverseString(string word)
+        {
+            char[] charArray = word.ToCharArray();
+            Array.Reverse(charArray);
+            return new string(charArray);
+        }
+
 
         [SlashCommand("poll", "Create your own poll")]
         public async Task PollCommand(InteractionContext ctx, [Option("question", "The main poll subject/question")] string Question,
