@@ -107,6 +107,56 @@ namespace CreatAndSet.Presentation.SlashCommands
             Array.Reverse(charArray);
             return new string(charArray);
         }
+        [SlashCommand("decrypt", "Text decryption command")]
+        public async Task DecryptCommand(InteractionContext ctx,
+    [Option("text", "Text to be decrypted")] string text,
+    [Option("algorithm", "Decryption algorithm (ceasar, reverse, or base64)")] string algorithm,
+    [Option("key", "Decryption key (exp 3)")] int key = 0)
+        {
+            string result = "";
+
+            switch (algorithm.ToLower())
+            {
+                case "ceasar":
+                    result = DecryptCaesarCipher(text, key);
+                    break;
+                case "reverse":
+                    result = ReverseString(text);
+                    break;
+                case "base64":
+                    result = Base64Decode(text);
+                    break;
+                default:
+                    await ctx.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder().WithContent("Invalid decryption algorithm. Please use 'ceasar', 'reverse', or 'base64'."));
+                    return;
+            }
+
+            var embed = new DiscordEmbedBuilder()
+                .WithTitle("Decryption Result")
+                .WithDescription($"Result: {result}")
+                .WithColor(DiscordColor.Green);
+
+            await ctx.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder().AddEmbed(embed));
+        }
+
+        private string DecryptCaesarCipher(string text, int key)
+        {
+            return EncryptCaesarCipher(text, -key); 
+        }
+
+        private string Base64Decode(string text)
+        {
+            try
+            {
+                byte[] bytes = Convert.FromBase64String(text);
+                return Encoding.UTF8.GetString(bytes);
+            }
+            catch (Exception)
+            {
+                return "Invalid Base64 decoding.";
+            }
+        }
+
 
 
         [SlashCommand("poll", "Create your own poll")]
