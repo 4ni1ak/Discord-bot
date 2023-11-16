@@ -157,6 +157,43 @@ namespace CreatAndSet.Presentation.SlashCommands
             }
         }
 
+        [SlashCommand("message21", "Send a custom message to a user")]
+        public async Task SendMessageCommand(InteractionContext ctx,
+        [Option("username", "Target user's name")] string username,
+        [Option("message", "Message to be sent")] string message,
+        [Option("color", "Message color (e.g., Red)")] string color = "Green",
+        [Option("font", "Font style (e.g., Bold)")] string font = "Regular")
+        {
+            var targetUser = ctx.Guild.Members.FirstOrDefault(member => member.Value.Username == username).Value;
+
+            if (targetUser == null)
+            {
+                await ctx.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder().WithContent($"User not found: {username}"));
+                return;
+            }
+
+            var embed = new DiscordEmbedBuilder()
+                .WithAuthor($"{ctx.User.Username} sent a message", ctx.User.AvatarUrl)
+                .WithDescription($"**Message:** {message}")
+                .WithColor(GetDiscordColor(color))
+                .WithFooter($"Font style: {font}")
+                .Build();
+
+            await targetUser.SendMessageAsync(embed: embed);
+
+            await ctx.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder().WithContent($"Your message has been sent to {targetUser.Mention}!"));
+        }
+
+        private DiscordColor GetDiscordColor(string color)
+        {
+            if (Enum.TryParse(color, true, out DiscordColor discordColor))
+            {
+                return discordColor;
+            }
+
+            // Default color if parsing fails
+            return DiscordColor.Green;
+        }
 
 
         [SlashCommand("poll", "Create your own poll")]
