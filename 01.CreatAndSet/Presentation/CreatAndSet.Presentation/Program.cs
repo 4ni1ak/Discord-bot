@@ -147,18 +147,42 @@ namespace Presentation
 				await e.Channel.SendMessageAsync($"{e.User.Username} joined the Voice Chanel");
 			}
 		}
+        private static async Task OnMessageCreated(MessageCreateEventArgs e)
+        {
+            if (e.Author.IsBot) return;
+
+            ulong wordGameChannelID = 0000000000000000;//ur channel id
+
+            if (e.Channel.Id != wordGameChannelID) return;
+
+            string lastMessageContent = e.Message.Content.ToLower();
+
+            var lastMessages = await e.Channel.GetMessagesAsync(2);
+
+            if (lastMessages.Count != 2) return;
+
+            string previousMessageContent = lastMessages[1].Content.ToLower();
+
+            if (previousMessageContent.EndsWith(lastMessageContent[0].ToString()))
+            {
+                await e.Message.CreateReactionAsync(DiscordEmoji.FromUnicode("✅"));
+            }
+            else
+            {
+                await e.Message.CreateReactionAsync(DiscordEmoji.FromUnicode("❌"));
+            }
+        }
 
 
+        //private static async Task MessageCreatedHandler(DiscordClient sender, MessageCreateEventArgs e)
+        //{
+        //	await e.Channel.SendMessageAsync("godmfdeam");
+        //}
 
-		//private static async Task MessageCreatedHandler(DiscordClient sender, MessageCreateEventArgs e)
-		//{
-		//	await e.Channel.SendMessageAsync("godmfdeam");
-		//}
+        //private static Task Client_Ready(DiscordClient sender, ReadyEventArgs args)
+        //{
+        //	return Task.CompletedTask;
+        //}
 
-		//private static Task Client_Ready(DiscordClient sender, ReadyEventArgs args)
-		//{
-		//	return Task.CompletedTask;
-		//}
-
-	}
+    }
 }
