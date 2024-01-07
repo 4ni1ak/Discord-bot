@@ -236,11 +236,16 @@ namespace Commands
             var botCard = new CardSystem();
             return (userCard, botCard);
         }
+
         [Command("CooldownTest")]
         [Cooldown(5, 10, CooldownBucketType.User)]
         public async Task Cooldown(CommandContext ctx)
         {
+
             await ctx.Channel.SendMessageAsync("CooldownTest");
+
+            var userDm = await ctx.Member.CreateDmChannelAsync();
+            await userDm.SendMessageAsync($"Hello {ctx.User.Username}! This is a direct message from the bot.");
 
         }
 
